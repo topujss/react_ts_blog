@@ -4,6 +4,8 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
+$img: url('https://images.pexels.com/photos/4101555/pexels-photo-4101555.jpeg');
+
 * {
   margin: 0;
   padding: 0;
@@ -13,4 +15,14 @@
 
 #title {
   font-family: 'Lora', sans-serif;
+}
+
+.active {
+  @apply border-b-2 border-rose-500 font-semibold text-rose-500;
+}
+
+.login,
+.register {
+  height: calc(100vh - 50px);
+  background: linear-gradient(#ffffff80, #ffffff80), $img center/cover no-repeat fixed;
 }
