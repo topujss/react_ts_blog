@@ -13,10 +13,6 @@ $img: url('https://images.pexels.com/photos/4101555/pexels-photo-4101555.jpeg');
   font-family: 'Poppins', sans-serif;
 }
 
-#title {
-  font-family: 'Lora', sans-serif;
-}
-
 .active {
   @apply border-b-2 border-rose-500 font-semibold text-rose-500;
 }
