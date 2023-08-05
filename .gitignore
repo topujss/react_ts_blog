@@ -27,3 +27,6 @@ vite-env.d.ts
 yarn.lock
 tsconfig.json
 tsconfig.node.json
+.eslintrc.cjs
+package-lock.json
+postcss.config.js
