@@ -5,7 +5,7 @@ const mongoDBConnect = async () => {
     mongoose.connect(process.env.MONGO_STRING, { useUnifiedTopology: true, useNewUrlParser: true });
     console.log(`MongoDB Database is connected`.bgMagenta);
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
   }
 };
 

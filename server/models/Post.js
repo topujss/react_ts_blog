@@ -4,7 +4,6 @@ const postSchema = Schema(
   {
     title: {
       type: String,
-      required: true,
       unique: true,
     },
     desc: {
@@ -21,7 +20,9 @@ const postSchema = Schema(
       type: Array,
     },
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  }
 );
 
 module.exports = model('Post', postSchema);

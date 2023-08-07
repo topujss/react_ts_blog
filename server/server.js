@@ -3,7 +3,7 @@ const express = require('express');
 const colors = require('colors');
 const mongoDBConnect = require('./config/db');
 const authRoute = require('./route/authRoute');
-const userRoute = require('./route/userRoute');
+const postRoute = require('./route/postRoute');
 
 // initialize express
 const app = express();
@@ -17,8 +17,8 @@ const PORT = process.env.PORT || 5000;
 app.use(express.static('server/public'));
 
 app.use('/api/v1/auth', authRoute);
-app.use('/api/v1/user', userRoute);
-// app.use('/api/posts', postRoute);
+// app.use('/api/v1/user', userRoute);
+app.use('/api/v1/post', postRoute);
 // app.use('/api/categories', categoryRoute);
 
 app.listen(PORT, () => {
