@@ -1,5 +1,5 @@
+require('dotenv').config();
 const express = require('express');
-const dotenv = require('dotenv');
 const colors = require('colors');
 const mongoDBConnect = require('./config/db');
 const authRoute = require('./route/authRoute');
@@ -9,7 +9,6 @@ const userRoute = require('./route/userRoute');
 const app = express();
 
 // environment setup
-dotenv.config();
 app.use(express.json());
 
 const PORT = process.env.PORT || 5000;
@@ -17,8 +16,8 @@ const PORT = process.env.PORT || 5000;
 // app static folder
 app.use(express.static('server/public'));
 
-app.use('/api/auth', authRoute);
-app.use('/api/user', userRoute);
+app.use('/api/v1/auth', authRoute);
+app.use('/api/v1/user', userRoute);
 // app.use('/api/posts', postRoute);
 // app.use('/api/categories', categoryRoute);
 

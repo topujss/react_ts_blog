@@ -7,7 +7,7 @@
     "server": "nodemon server/server.js",
     "client": "npm run dev --prefix client",
     "start": "concurrently \"npm run server\" \"npm run client\"",
-    "push": "git add . && git commit -m \"client and server added\" && git push"
+    "push": "git add . && git commit -m \"server auth is done\" && git push"
   },
   "keywords": [],
   "author": "",
@@ -16,7 +16,7 @@
     "bcrypt": "^5.1.0",
     "colors": "^1.4.0",
     "concurrently": "^8.2.0",
-    "dotenv": "^9.0.2",
+    "dotenv": "^16.3.1",
     "express": "^4.17.1",
     "express-async-handler": "^1.2.0",
     "mongoose": "^5.12.9",
