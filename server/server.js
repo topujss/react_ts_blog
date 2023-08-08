@@ -1,9 +1,10 @@
 require('dotenv').config();
 const express = require('express');
-const colors = require('colors');
+require('colors');
 const mongoDBConnect = require('./config/db');
 const authRoute = require('./route/authRoute');
 const postRoute = require('./route/postRoute');
+const categoryRoute = require('./route/categoryRoute');
 
 // initialize express
 const app = express();
@@ -19,7 +20,7 @@ app.use(express.static('server/public'));
 app.use('/api/v1/auth', authRoute);
 // app.use('/api/v1/user', userRoute);
 app.use('/api/v1/post', postRoute);
-// app.use('/api/categories', categoryRoute);
+app.use('/api/v1/category', categoryRoute);
 
 app.listen(PORT, () => {
   mongoDBConnect();
