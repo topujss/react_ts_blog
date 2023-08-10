@@ -73,7 +73,7 @@ const delPost = asyncHandler(async (req, res) => {
  * @param id
  * @function updatePost
  * @desc you will get to update single post
- * @route DELETE api/v1/post/:id
+ * @route PATCH api/v1/post/:id
  */
 const updatePost = asyncHandler(async (req, res) => {
   // get params data

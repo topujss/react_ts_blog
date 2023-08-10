@@ -1,5 +1,5 @@
-require('dotenv').config();
 const express = require('express');
+require('dotenv').config();
 require('colors');
 const mongoDBConnect = require('./config/db');
 const authRoute = require('./route/authRoute');

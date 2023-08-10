@@ -8,7 +8,6 @@ const Category = require('../models/Category');
  */
 const getAllCategory = asyncHandler(async (req, res) => {
   const getCat = await Category.find();
-
   res.status(200).json({ message: 'Got all category data', getCat });
 });
 
@@ -20,28 +19,34 @@ const getAllCategory = asyncHandler(async (req, res) => {
 const createCategory = asyncHandler(async (req, res) => {
   // get body data
   const { name } = req.body;
+  !name && res.status(400).json({ message: 'Name is requied' });
 
-  if (!name) {
-    return res.status(400).json({ message: 'Name is requied' });
+  //  Check if category exists
+  const catCheck = await Category.findOne({ name });
+  if (catCheck) {
+    return res.status(400).json({ message: 'Category already exists' });
   }
 
   const createCat = await Category.create({ name });
-
   res.status(200).json({ message: 'created single data', createCat });
 });
-
-module.exports = { createCategory, getAllCategory };
 
 /**
  * @param id
  * @function editCategory
  * @desc you will get to edit single category
- * @route POST api/v1/category/:id
+ * @route PATCH api/v1/category/:id
  */
 const editCategory = asyncHandler(async (req, res) => {
   // get body data
   const { id } = req.params;
   const { name } = req.body;
+
+  // check if category exists
+  const catCheck = await Category.findOne({ name });
+  if (catCheck) {
+    return res.status(200).json({ message: 'Category already exists' });
+  }
 
   const editCat = await Category.findByIdAndUpdate(id, { name }, { new: true });
   res.status(200).json({ message: 'edited single category', editCat });
@@ -51,7 +56,7 @@ const editCategory = asyncHandler(async (req, res) => {
  * @param id
  * @function delCategory
  * @desc you will get to delete single category
- * @route POST api/v1/category/:id
+ * @route DELETE api/v1/category/:id
  */
 const delCategory = asyncHandler(async (req, res) => {
   // get body data
