@@ -17,9 +17,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   // hash the password before sending
   const passHash = await bcrypt.hash(password, 10);
-
   const newUser = await User.create({ username, email, password: passHash });
-
   res.status(200).json({ message: 'Register user created', newUser });
 });
 

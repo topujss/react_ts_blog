@@ -4,10 +4,26 @@ const bcrypt = require('bcrypt');
 const Post = require('../models/Post');
 
 /**
+ * @function getAllUser
+ * @desc you will be able to find all user
+ * @route GET api/v1/user/
+ */
+const getAllUser = asyncHandler(async (req, res) => {
+  const getAllUser = await User.find();
+
+  // validate when no user found
+  if (!getAllUser) {
+    return res.status(400).json({ message: 'no user found' });
+  }
+
+  res.status(200).json({ message: 'Got all user', getAllUser });
+});
+
+/**
  * @param id
  * @function getSingleUser
- * @desc user login feature
- * @route POST api/v1/user/:id
+ * @desc you will be able to find single user without password
+ * @route GET api/v1/user/:id
  */
 const getSingleUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
@@ -25,25 +41,23 @@ const getSingleUser = asyncHandler(async (req, res) => {
  * @param id
  * @function updateSingleUser
  * @desc user update feature
- * @route PUT api/v1/user/:id
+ * @route PATCH api/v1/user/:id
  */
 const updateSingleUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const { userId, password, email, username } = req.body;
+  const { password, email, username } = req.body;
 
-  if (userId === id) {
-    // validate after getting them
-    if (!username || !email || !password) {
-      return res.status(200).json({ message: 'no data found to update' });
-    }
-
-    // Make password hash before send database
-    const passHash = await bcrypt.hash(password, 10);
-
-    const updatedUser = await User.findByIdAndUpdate(id, { username, email, password: passHash }, { new: true });
-
-    res.status(200).json({ message: 'Successfully updated single user', updatedUser });
+  // validate after getting them
+  if (!username || !email || !password) {
+    return res.status(200).json({ message: 'All fields are required' });
   }
+
+  // Make password hash before send database
+  const passHash = await bcrypt.hash(password, 10);
+
+  const updatedUser = await User.findByIdAndUpdate(id, { username, email, password: passHash }, { new: true });
+
+  res.status(200).json({ message: 'Successfully updated single user', updatedUser });
 });
 
 /**
@@ -54,15 +68,13 @@ const updateSingleUser = asyncHandler(async (req, res) => {
  */
 const deleteSingleUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const { userId } = req.body;
 
-  if (userId === id) {
-    const modelUser = await User.findById(id);
-    await Post.deleteMany({ username: modelUser.username });
-    const deletedUser = await User.findByIdAndDelete(id);
+  const modelUser = await User.findById(id);
+  await Post.deleteMany({ username: modelUser.username });
 
-    res.status(200).json({ message: 'Successfully deleted single user', deletedUser });
-  }
+  const deletedUser = await User.findByIdAndDelete(id);
+
+  res.status(200).json({ message: 'Successfully deleted single user', deletedUser });
 });
 
-module.exports = { getSingleUser, updateSingleUser, deleteSingleUser };
+module.exports = { getAllUser, getSingleUser, updateSingleUser, deleteSingleUser };

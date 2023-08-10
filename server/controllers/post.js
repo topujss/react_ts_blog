@@ -7,7 +7,9 @@ const Post = require('../models/Post');
  * @route POST api/v1/post/
  */
 const createPost = asyncHandler(async (req, res) => {
-  if (!req.body) {
+  const { username, title, desc } = req.body;
+
+  if (!username || !title || !desc) {
     return res.status(400).json({ message: 'All fields are required' });
   }
 
@@ -27,10 +29,10 @@ const createPost = asyncHandler(async (req, res) => {
  */
 const getAllPost = asyncHandler(async (req, res) => {
   // get query data
-  const { user, cat } = req.params;
+  const { username, cat } = req.query;
 
   let postData;
-  if (user) {
+  if (username) {
     postData = await Post.find({ username });
   } else if (cat) {
     postData = await Post.find({ categories: { $in: [cat] } });
@@ -50,9 +52,7 @@ const getAllPost = asyncHandler(async (req, res) => {
 const getSinglePost = asyncHandler(async (req, res) => {
   // get params data
   const { id } = req.params;
-
   const getSingle = await Post.findById(id);
-
   res.status(200).json({ message: 'Got single data', getSingle });
 });
 
@@ -65,9 +65,7 @@ const getSinglePost = asyncHandler(async (req, res) => {
 const delPost = asyncHandler(async (req, res) => {
   // get params data
   const { id } = req.params;
-
   const deletedSingle = await Post.findByIdAndDelete(id);
-
   res.status(200).json({ message: 'deleted single data', deletedSingle });
 });
 
