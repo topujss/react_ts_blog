@@ -1,6 +1,7 @@
 const express = require('express');
 require('dotenv').config();
 require('colors');
+const cors = require('cors');
 const mongoDBConnect = require('./config/db');
 const authRoute = require('./route/authRoute');
 const userRoute = require('./route/userRoute');
@@ -12,6 +13,12 @@ const app = express();
 
 // environment setup
 app.use(express.json());
+app.use(
+  cors({
+    origin: ['http://localhost:3000'],
+    credentials: true,
+  })
+);
 
 const PORT = process.env.PORT || 5000;
 

@@ -1,9 +1,8 @@
 import { FaSquareTwitter, FaSquareFacebook, FaSquareInstagram, FaSquarePinterest } from 'react-icons/fa6';
 import { GoSearch } from 'react-icons/go';
 import { NavLink, Link } from 'react-router-dom';
-import { MenuItem, SocialItem } from '../types';
 
-const socialItems: SocialItem[] = [
+const socialItems = [
   {
     link: '/',
     icon: <FaSquareFacebook />,
@@ -22,7 +21,7 @@ const socialItems: SocialItem[] = [
   },
 ];
 
-const menuItems: MenuItem[] = [
+const menuItems = [
   {
     link: '/',
     name: 'home',
@@ -47,9 +46,9 @@ const Header = () => {
     <>
       <header className="w-full h-[50px] bg-blue-400 sticky top-0 flex  items-center z-50">
         <div className="basis-1/4 flex items-center justify-center gap-3">
-          {socialItems.map((item) => {
+          {socialItems.map((item, i) => {
             return (
-              <Link className="text-green-800 text-2xl" to={item.link}>
+              <Link key={i} className="text-green-800 text-2xl" to={item.link}>
                 {item.icon}
               </Link>
             );

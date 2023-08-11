@@ -45,19 +45,23 @@ const getSingleUser = asyncHandler(async (req, res) => {
  */
 const updateSingleUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const { password, email, username } = req.body;
+  const { password, email, username, userId } = req.body;
 
-  // validate after getting them
-  if (!username || !email || !password) {
-    return res.status(200).json({ message: 'All fields are required' });
+  if (userId === id) {
+    // validate after getting them
+    if (!username || !email || !password) {
+      return res.status(200).json({ message: 'All fields are required' });
+    }
+
+    // Make password hash before send database
+    const passHash = await bcrypt.hash(password, 10);
+
+    const updatedUser = await User.findByIdAndUpdate(id, { username, email, password: passHash }, { new: true });
+
+    res.status(200).json({ message: 'Successfully updated single user', updatedUser });
+  } else {
+    res.status(400).json({ message: 'You can only update your data' });
   }
-
-  // Make password hash before send database
-  const passHash = await bcrypt.hash(password, 10);
-
-  const updatedUser = await User.findByIdAndUpdate(id, { username, email, password: passHash }, { new: true });
-
-  res.status(200).json({ message: 'Successfully updated single user', updatedUser });
 });
 
 /**
@@ -68,13 +72,19 @@ const updateSingleUser = asyncHandler(async (req, res) => {
  */
 const deleteSingleUser = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  const { userId } = req.body;
 
-  const modelUser = await User.findById(id);
-  await Post.deleteMany({ username: modelUser.username });
+  if (userId === id) {
+    // find user and then delete all post
+    const modelUser = await User.findById(id);
+    await Post.deleteMany({ username: modelUser.username });
 
-  const deletedUser = await User.findByIdAndDelete(id);
+    const deletedUser = await User.findByIdAndDelete(id);
 
-  res.status(200).json({ message: 'Successfully deleted single user', deletedUser });
+    res.status(200).json({ message: 'Successfully deleted single user', deletedUser });
+  } else {
+    res.status(400).json({ message: 'You can only delete your data' });
+  }
 });
 
 module.exports = { getAllUser, getSingleUser, updateSingleUser, deleteSingleUser };

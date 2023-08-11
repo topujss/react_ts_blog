@@ -12,14 +12,17 @@ const createPost = asyncHandler(async (req, res) => {
   if (!username || !title || !desc) {
     return res.status(400).json({ message: 'All fields are required' });
   }
+  console.log(req.file.filename);
 
   // send those that came from body to database
-  const newPost = new Post(req.body);
+  const newPost = await Post.create({
+    username,
+    title,
+    desc,
+    photo: req.file.filename,
+  });
 
-  // save after everything is done
-  const savedPost = await newPost.save();
-
-  res.status(200).json({ message: 'post Successfully created', savedPost });
+  res.status(200).json({ message: 'post Successfully created', newPost });
 });
 
 /**
@@ -65,8 +68,15 @@ const getSinglePost = asyncHandler(async (req, res) => {
 const delPost = asyncHandler(async (req, res) => {
   // get params data
   const { id } = req.params;
-  const deletedSingle = await Post.findByIdAndDelete(id);
-  res.status(200).json({ message: 'deleted single data', deletedSingle });
+  const { username } = req.body;
+  const postData = await Post.findById(id);
+
+  if (postData.username === username) {
+    const deletedSingle = await Post.findByIdAndDelete(id);
+    res.status(200).json({ message: 'deleted single data', deletedSingle });
+  } else {
+    res.status(400).json({ message: 'username not matched' });
+  }
 });
 
 /**
@@ -78,16 +88,22 @@ const delPost = asyncHandler(async (req, res) => {
 const updatePost = asyncHandler(async (req, res) => {
   // get params data
   const { id } = req.params;
+  const { username } = req.body;
+  const postData = await Post.findById(id);
 
-  const updateSingle = await Post.findByIdAndUpdate(
-    id,
-    {
-      $set: req.body,
-    },
-    { new: true }
-  );
-
-  res.status(200).json({ message: 'updated single data', updateSingle });
+  // if post username is same then update
+  if (postData.username === username) {
+    const updateSingle = await Post.findByIdAndUpdate(
+      id,
+      {
+        $set: req.body,
+      },
+      { new: true }
+    );
+    res.status(200).json({ message: 'updated single data', updateSingle });
+  } else {
+    res.status(400).json({ message: 'username not matched' });
+  }
 });
 
 module.exports = { createPost, getAllPost, getSinglePost, delPost, updatePost };

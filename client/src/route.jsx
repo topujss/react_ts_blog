@@ -1,12 +1,12 @@
 import { createBrowserRouter } from 'react-router-dom';
 import Layout from './components/Layout';
-import Home from './pages/Home';
 import Single from './pages/Single';
 import Edit from './pages/Edit';
 import Settings from './pages/Settings';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import NotFound from './pages/NotFound';
+import Home from './pages/Home';
 
 const user = true;
 

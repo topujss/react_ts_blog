@@ -1,7 +1,20 @@
+import { useEffect, useState } from 'react';
 import Post from '../components/Posts';
 import Sidbar from '../components/Sidbar';
+import axios from 'axios';
 
 const Home = () => {
+  const [post, setPost] = useState([]);
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      const res = await axios.get('http://localhost:5050/api/v1/post', { withCredentials: true });
+      setPost(res.data);
+    };
+
+    fetchPost();
+  }, []);
+
   return (
     <>
       <div id="title" className=" mt-14">
@@ -16,7 +29,7 @@ const Home = () => {
         />
       </div>
       <div className="flex">
-        <Post />
+        <Post posts={post} />
         <Sidbar />
       </div>
     </>

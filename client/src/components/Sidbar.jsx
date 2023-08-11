@@ -1,17 +1,9 @@
 import { Link } from 'react-router-dom';
-import { MenuItem, SocialItem } from '../types';
 import { FaFacebookSquare, FaInstagramSquare, FaPinterestSquare, FaTwitterSquare } from 'react-icons/fa';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
 
-const sidebarItem: MenuItem[] = [
-  { name: 'Life' },
-  { name: 'Music' },
-  { name: 'Sport' },
-  { name: 'Style' },
-  { name: 'Tech' },
-  { name: 'Cinema' },
-];
-
-const socialItems: SocialItem[] = [
+const socialItems = [
   { link: '/', icon: <FaFacebookSquare /> },
   { link: '/', icon: <FaInstagramSquare /> },
   { link: '/', icon: <FaPinterestSquare /> },
@@ -19,6 +11,16 @@ const socialItems: SocialItem[] = [
 ];
 
 export default function Sidebar() {
+  const [cat, setCat] = useState([]);
+
+  useEffect(() => {
+    const getCat = async () => {
+      const res = await axios.get(`http://localhost:5050/api/v1/category/`);
+      setCat(res.data.getCat);
+    };
+    getCat();
+  }, []);
+
   return (
     <div className="flex-three h-fit m-5 pb-7 bg-slate-500 rounded-lg flex flex-col items-center">
       <div className="flex flex-col items-center">
@@ -40,7 +42,7 @@ export default function Sidebar() {
           CATEGORIES
         </span>
         <ul className="mb-8">
-          {sidebarItem.map(({ name }, i) => (
+          {cat.map(({ name }, i) => (
             <li className="inline-block w-1/2 mt-4" key={i}>
               <Link className="link" to={`/posts?cat=${name}`}>
                 {name}

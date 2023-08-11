@@ -36,9 +36,7 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 
   const validated = await bcrypt.compare(password, userExist.password);
-  if (!validated) {
-    return res.status(400).json(`User password not match!`);
-  }
+  !validated && res.status(400).json({ message: `User password not match!` });
 
   res.status(200).json({ message: 'User successfully loggedin', validated });
 });
