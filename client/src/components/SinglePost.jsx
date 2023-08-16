@@ -23,7 +23,7 @@ export default function SinglePost() {
         {post.getSingle?.photo ? (
           <img
             className="singlePostImg w-full h-[300px] object-cover rounded"
-            src={`http://localhost:5050/public/img/${post.getSingle?.photo}`}
+            src={`http://localhost:5050/img/${post.getSingle?.photo}`}
             alt=""
           />
         ) : (

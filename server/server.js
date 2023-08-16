@@ -7,9 +7,11 @@ const authRoute = require('./route/authRoute');
 const userRoute = require('./route/userRoute');
 const postRoute = require('./route/postRoute');
 const categoryRoute = require('./route/categoryRoute');
+const path = require('path');
 
 // initialize express
 const app = express();
+// app.use('/public/img', express.static(path.join(__dirname, '/public/img')));
 
 // environment setup
 app.use(express.json());

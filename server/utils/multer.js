@@ -2,11 +2,12 @@ const multer = require('multer');
 
 // create disk storage for picture
 const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    console.log(req.file);
+    cb(null, 'server/public/img');
+  },
   filename: (req, file, cb) => {
     cb(null, Date.now() + '_' + file.originalname);
-  },
-  destination: (req, file, cb) => {
-    cb(null, 'server/public/img');
   },
 });
 
